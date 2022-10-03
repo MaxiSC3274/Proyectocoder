@@ -1,0 +1,24 @@
+#from django.template import Context, Template
+#from django.http import HttpResponse
+
+
+
+#def saludo(request):
+    #return HttpResponse("Buenas noches America")
+
+#def saludo_con_template(request):
+    #mi_archivo = open("C:/Users/I868125/Desktop/Proyecto-coderMSC/Proyectocoder/Proyectocoder/template1.html")
+    #mi_archivo.close()
+    #
+   # diccionario_de_contexto= {
+      #  "xx": "gata",
+      #  "yy": "orca",
+      #  "zz": 3
+    #}
+
+
+  #  context = Context(diccionario_de_contexto)
+
+   # res = template.render(context)
+   # return HttpResponse(res)
+
