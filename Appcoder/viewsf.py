@@ -65,36 +65,48 @@ def cursoformulario(request):
    # curso = cursomodel (nombre=request.POST["curso"], camada=request.POST["camada"])
     #curso.save
     #return render(request, "Inicio.html")
-   
+
+def curso(request):
+
+      curso = cursomodel(nombre="Maria antonieta", camada="19881")
+      curso.save()
+      documentoDeTexto = f"--->Curso: {curso.nombre}   Camada: {curso.camada}"
+
+
+      return HttpResponse(documentoDeTexto)   
+
 
 def cursos(request):
-    #return HttpResponse("hola mundo")
-    #return render(request, "Appcoder/Inicio.html")    
-    #templatetres = loader.get_template("Cursos.html")
-    #restres = templatetres.render()
-    #return HttpResponse(restres)    
 
-    if request.method =='POST':
-       miFormulario = Cursoformulario(request.POST)
-       print(miFormulario)
+      if request.method == 'POST':
 
-       if miFormulario.is_valid:
-          informacion = miFormulario.cleaned_data
-          curso = cursomodel(nombre=informacion['curso'],camada=informacion['camada'])
-          curso.save()
-          return render(request, "Appcoder/inicio.html")
+            miFormulario = Cursoformulario(request.POST) #aquí mellega toda la información del html
 
-    else:
-        miFormulario=Cursoformulario()
+            print(miFormulario)
 
-    return render(request , "Appcoder/cursos.html"), {"miFormulario":miFormulario}          
+            if miFormulario.is_valid:   #Si pasó la validación de Django
+
+                  informacion = miFormulario.cleaned_data
+
+                  curso = cursomodel(nombre=informacion['nombre'], camada=informacion['camada']) 
+
+                  curso.save()
+
+                  return render(request, "AppCoder/inicio.html") #Vuelvo al inicio o a donde quieran
+
+      else: 
+
+            miFormulario= Cursoformulario() #Formulario vacio para construir el html
+  
+
+        
 
 
 
 def formularioh(request):
     #return HttpResponse("hola mundo")
     #return render(request, "Appcoder/Inicio.html")    
-    templatefhijo = loader.get_template("Appcoder/curso.html")
+    templatefhijo = loader.get_template("Appcoder/formulariohijo.html")
     resfhijo = templatefhijo.render()
     return HttpResponse(resfhijo)   
    
@@ -123,14 +135,19 @@ def busquedacamada(request):
     return render(request,"Appcoder/busquedacamada.html")
 
 def buscar(request):
-    #respuesta=f"Estoy buscando la camada numero:{request.GET['camada']}"
-    #return HttpResponse(respuesta)
-    if request.GET["camada"]:
 
-       camada = request.GET['camada'] 
-       cursos = cursomodel.objects.filter(camada_icontains=camada)
+      if  request.GET["camada"]:
 
-       return render(request, "Appcoder/resultadobusqueda.html",{"cursos":cursos, "camada":camada})
-    else:
-       respuesta ="no enviaste nada"   
-    return HttpResponse(respuesta)   
+	      #respuesta = f"Estoy buscando la camada nro: {request.GET['camada'] }" 
+            camada = request.GET['camada'] 
+            cursos = cursomodel.objects.filter(camada__icontains=camada)
+
+            return render(request, "AppCoder/resultadobusqueda.html", {"cursos":cursos, "camada":camada})
+
+      else: 
+          
+	      return HttpResponse("No enviaste datos")
+
+      #No olvidar from django.http import HttpResponse
+      
+     

@@ -6,16 +6,16 @@
 
 
     <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
-    <h1>Este es el título del Inicio que cambio</h1>
+    <h1>Bienvenidos a la entrega del 12 de Octubre</h1>
   
 
     <h3>Podes buscar una camada:</h3>
 
-    <form action="/AppCoder/buscar/" method="GET">
+    <form action="/Appcoder/buscar/" method="GET">
 
         <input type="number" name="camada" id="camada">
 
-        <input type="submit" value="Buscar">
+        <input type="submit" href="{% url 'busquedacamada' %}" value="Buscar">
 
 
 

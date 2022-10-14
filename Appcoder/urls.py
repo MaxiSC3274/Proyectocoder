@@ -16,5 +16,4 @@ urlpatterns = [
     path("formularioh/", formularioh ,name= "formularioh"),
     path("busquedacamada/", busquedacamada ,name= "busquedacamada"),
     path("buscar/", buscar ,name= "buscar"),
-
 ]
