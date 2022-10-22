@@ -1,5 +1,3 @@
-
-
 from django.db import models
 
 # Create your models here.
@@ -16,8 +14,8 @@ class cursomodel (models.Model):
       #curso = models.CharField(max_length=30)   
       camada= models.IntegerField()
 
-      def _str_ (self):
-           return self.nombre  
+      def __str__(self):
+           return f"Nombre:{self.nombre}" #- Camada {self.camada}""
 
 class camadamodel (models.Model):
       nombre= models.CharField(max_length=30)

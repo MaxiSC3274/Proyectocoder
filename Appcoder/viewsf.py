@@ -18,7 +18,7 @@ def inicio(request):
 def servicios(request):
     #return HttpResponse("hola mundo")
     #return render(request, "Appcoder/Servicios.html")    
-    templatefour = loader.get_template("Servicios.html")
+    templatefour = loader.get_template("eliminarcurso.html")
     resfour = templatefour.render()
     return HttpResponse(resfour)     
 
@@ -96,9 +96,9 @@ def cursos(request):
 
       else: 
 
-            miFormulario= Cursoformulario() #Formulario vacio para construir el html
+            miFormulario= Cursoformulario(initial={'nombre':curso.nombre,'camada':curso.camada}) #Formulario vacio para construir el html
   
-
+      return render (request,"Appcoder/cursoformulario.html", {"miformulario":miFormulario})
         
 
 
@@ -150,4 +150,18 @@ def buscar(request):
 
       #No olvidar from django.http import HttpResponse
       
-     
+def leeralumnos(request):
+    leercurso = cursomodel.objects.all()
+    contextoleer = {"curso": leercurso}     
+    return render (request, "Appcoder/leeralumnos.html",contextoleer)
+
+def eliminarcurso(request,nombre):
+    #return HttpResponse("holi")
+    curso = cursomodel.objects.get(nombre=nombre)
+    
+    curso.delete()
+
+    #volver al menu
+    leercurso = cursomodel.objects.all()
+    contexto = {"curso": leercurso}   
+    return render (request, "Appcoder/leeralumnos.html",contexto)   

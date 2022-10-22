@@ -1,0 +1,13 @@
+<body>
+
+{% for p in curso %}
+
+    <li>{{p}}</li>
+    </button>
+    <a href= "{% url 'EliminarCurso' %}"> Eliminar </a>
+    </button>
+
+{% endfor %}
+<a href = "{% url 'cursoformulario' %}"> <br><br>Agregar curso</a>
+   
+</body>

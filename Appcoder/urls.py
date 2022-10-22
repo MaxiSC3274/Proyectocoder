@@ -1,6 +1,7 @@
 from django.urls import path
 from Appcoder import viewsf
-from Appcoder.viewsf import inicio,cursos,servicios,crear_familiar,cursoformulario,formularioh,busquedacamada,buscar
+from Appcoder.viewsf import inicio,cursos,servicios,crear_familiar,cursoformulario,formularioh,busquedacamada,buscar,leeralumnos,eliminarcurso
+   
 
 urlpatterns = [
    
@@ -16,4 +17,6 @@ urlpatterns = [
     path("formularioh/", formularioh ,name= "formularioh"),
     path("busquedacamada/", busquedacamada ,name= "busquedacamada"),
     path("buscar/", buscar ,name= "buscar"),
+    path("leeralumnos/", leeralumnos ,name= "leeralumnos"),
+    path('eliminarcurso/<nombre>/', eliminarcurso ,name= "EliminarCurso"),
 ]
