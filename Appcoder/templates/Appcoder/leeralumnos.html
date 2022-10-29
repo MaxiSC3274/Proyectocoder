@@ -1,13 +1,20 @@
 <body>
 
-{% for p in curso %}
-
-    <li>{{p}}</li>
-    </button>
-    <a href= "{% url 'EliminarCurso' %}"> Eliminar </a>
-    </button>
-
-{% endfor %}
-<a href = "{% url 'cursoformulario' %}"> <br><br>Agregar curso</a>
-   
-</body>
+    {% for p in curso %}
+    
+    <li> Curso: {{ p.nombre}}</li>
+    <li> Camada: {{ p.camada}}</li>
+        <a href= "{% url 'EliminarCurso' p.nombre %}"> Eliminar </a>
+        <br>
+        <a href= "{% url 'EditarCurso' p.nombre %}"> Editar </a>
+        
+        </button>
+        
+        </button>
+    
+    {% endfor %}
+    <a href = "{% url 'cursoformulario' %}"> <br><br>Agregar curso</a>
+    <br>
+    <a href ="{% url 'inicio' %}"> Volver al Menu</a>
+       
+    </body>

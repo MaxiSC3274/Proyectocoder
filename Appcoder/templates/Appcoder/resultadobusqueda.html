@@ -1,14 +1,15 @@
-<p>Estamos buscando el: {{camada}}</p>
-{% if cursos %}
+<p> Estamos buscando el: {{camada}}</p>
 
+{% if cursos %}
+<p style="color: red;"></p>
 <ul>
 {% for curso in cursos %}    
 
-   <li> {{curso.nombre}}</li>
-   <li> {{curso.camada}}</li>
-
+   <li>Curso: {{curso.nombre}}</li>
+   <li>Camada: {{curso.camada}}</li>
+   <a href= "{% url 'EliminarCurso' curso.nombre %}"> Eliminar </a>
 {% endfor %}
 
 </ul>
-
+<a href = "{% url 'inicio' %}" > Volver al Menu</a>
 {% endif %}

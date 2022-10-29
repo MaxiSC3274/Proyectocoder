@@ -1,0 +1,15 @@
+<h1>Listado de todos los cursos de nuestra base de datos</h1>
+<br>
+<ul>
+{% for p in cursos_encontrados %}
+
+<li>
+{{ p}}
+</li>
+
+{% endfor %}
+</ul>
+<br><br>
+<a href= "{% url 'servicios'  %}"> Editar </a>
+<br><br>
+<a href ="{% url 'inicio' %}"> Volver al Menu</a>

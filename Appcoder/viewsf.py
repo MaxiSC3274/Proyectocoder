@@ -3,9 +3,12 @@ from pickle import TRUE
 from tkinter.font import families
 from django.http import HttpResponse
 from django.shortcuts import render
-from Appcoder.models import  estudiante, cursomodel, camadamodel
+from Appcoder.models import  cursomodel
 from django.template import loader
-from Appcoder.forms import Cursoformulario, formulariohijo
+from Appcoder.forms import Cursoformulario
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 
 
 def inicio(request):
@@ -16,11 +19,9 @@ def inicio(request):
     return HttpResponse(resdos)
 
 def servicios(request):
-    #return HttpResponse("hola mundo")
-    #return render(request, "Appcoder/Servicios.html")    
-    templatefour = loader.get_template("eliminarcurso.html")
-    resfour = templatefour.render()
-    return HttpResponse(resfour)     
+       leercurso = cursomodel.objects.all()
+       contextoleer = {"curso": leercurso}     
+       return render (request, "Appcoder/leeralumnos.html",contextoleer)
 
 def cursoformulario(request):
    
@@ -42,11 +43,13 @@ def cursoformulario(request):
           )
           
           nuevo_model.save()  
-          return HttpResponse("guardado") 
+          return render(request,"Appcoder/cursoformulario.html")
+          
     #return render(request,"Appcoder/cursoformulario.html")
     else:
           return render(request,"Appcoder/cursoformulario.html")
     mi_formulario=Cursoformulario()
+  
     return render (request,"Appcoder/cursoformulario.html",{"miformulario":mi_formulario})
 
  #contexto = {"formulario": mi_formulario}
@@ -145,8 +148,9 @@ def buscar(request):
             return render(request, "AppCoder/resultadobusqueda.html", {"cursos":cursos, "camada":camada})
 
       else: 
-          
-	      return HttpResponse("No enviaste datos")
+         
+	      return HttpResponse("No enviaste datos") 
+
 
       #No olvidar from django.http import HttpResponse
       
@@ -155,13 +159,53 @@ def leeralumnos(request):
     contextoleer = {"curso": leercurso}     
     return render (request, "Appcoder/leeralumnos.html",contextoleer)
 
-def eliminarcurso(request,nombre):
+def eliminarcurso(request,c_nombre):
     #return HttpResponse("holi")
-    curso = cursomodel.objects.get(nombre=nombre)
-    
+    curso = cursomodel.objects.filter(nombre=c_nombre)
     curso.delete()
 
     #volver al menu
-    leercurso = cursomodel.objects.all()
-    contexto = {"curso": leercurso}   
-    return render (request, "Appcoder/leeralumnos.html",contexto)   
+    leercursodeleted = cursomodel.objects.all()
+    contexto = {"cursodelete": leercursodeleted}   
+    return render (request, "Appcoder/eliminarcurso.html",contexto) 
+
+def listar_cursos(request):
+    todos_los_cursos = cursomodel.objects.all()
+    contexto={"cursos_encontrados":todos_los_cursos}
+    
+    return render(request,"Appcoder/listar-cursos.html", contexto)    
+
+def editarcurso(request,curso_nombre):
+  
+    cursoedit= cursomodel.objects.get(nombre=curso_nombre)
+   
+    if request.method == 'POST':
+       miFormulario = Cursoformulario(request.POST)
+       print(miFormulario)
+       
+       if miFormulario.is_valid:
+          
+          informacion= miFormulario.cleaned_data
+  
+          cursoedit.nombre = informacion['nombre']
+          cursoedit.camada = informacion['camada']
+          cursoedit.save()
+  
+          return render(request,"Appcoder/inicio.html")
+    else:
+          miFormulario = Cursoformulario(initial={'nombre':cursoedit.nombre,'camada':cursoedit.camada})
+    return render(request,"Appcoder/editarcurso.html",{"miFormulario":miFormulario,"curso_nombre":curso_nombre})
+
+
+
+
+#class CursoList(ListView):
+    #model = cursomodel
+   # template_name= "Appcoder/curso/list/"
+
+      
+#class CursoUpdate(UpdateView):
+   # model = cursomodel
+    #success_url= "/Appcoder/curso/list"
+    #fields = ['nombre','camada']
+     

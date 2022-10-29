@@ -1,4 +1,7 @@
+from ast import List
 from django.db import models
+
+#from Appcoder.viewsf import cursos
 
 # Create your models here.
 
@@ -15,14 +18,13 @@ class cursomodel (models.Model):
       camada= models.IntegerField()
 
       def __str__(self):
-           return f"Nombre:{self.nombre}" #- Camada {self.camada}""
+           return  f"Nombre:{self.nombre}" " - "  f"Camada:{self.camada}"
 
 class camadamodel (models.Model):
       nombre= models.CharField(max_length=30)
       camada= models.IntegerField()
       
-      
-   
+
       
 
 
