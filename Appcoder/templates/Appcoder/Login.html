@@ -1,0 +1,13 @@
+<body>
+    <form action ="" method = "POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    
+
+    <input type="submit" value="Ingresar">
+</form>
+<a class="navbar-brand" href="{%  url 'Register' %}">Registrarse</a>
+<h2>
+<a class="navbar-brand" href="{%  url 'EditarPerfil' %}">Editar perfil</a>
+</h2>
+</body>

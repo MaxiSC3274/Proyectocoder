@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
 
-       {% load static %}
+        {% load static %}
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -24,8 +24,10 @@
      <!-- Navigation-->
      <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
-           
-            <a class="btn btn-primary" href="{% url 'Login' %}"> Iniciar Sesion </a>
+          
+    <a class="navbar-brand" href="{% url 'servicios' %}">EditarBD</a>
+    <a class="navbar-brand" href="{% url 'cursoformulario' %}">Cargar Curso a la BD</a>
+    <a class="navbar-brand" href="{%  url 'Logout' %}">Logout</a>
         </div>
     </nav>
 

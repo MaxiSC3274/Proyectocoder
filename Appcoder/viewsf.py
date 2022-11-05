@@ -1,15 +1,22 @@
 import http
 from pickle import TRUE
+from re import A
 from tkinter.font import families
 from django.http import HttpResponse
 from django.shortcuts import render
 from Appcoder.models import  cursomodel
 from django.template import loader
 from Appcoder.forms import Cursoformulario
+from Appcoder.forms import UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def inicio(request):
     #return HttpResponse("hola mundo")
@@ -17,6 +24,22 @@ def inicio(request):
     templatedos = loader.get_template("Inicio.html")
     resdos = templatedos.render()
     return HttpResponse(resdos)
+
+
+def Loginok(request):
+    #return HttpResponse("hola mundo")
+    #return render(request, "Appcoder/Inicio.html")    
+    templatelogok = loader.get_template("Loginok.html")
+    logok =templatelogok.render()
+    return HttpResponse(logok)
+
+
+def Logout(request):
+    #return HttpResponse("hola mundo")
+    #return render(request, "Appcoder/Inicio.html")    
+    templatelogok = loader.get_template("Loginok.html")
+    logok =templatelogok.render()
+    return HttpResponse(logok)    
 
 def servicios(request):
        leercurso = cursomodel.objects.all()
@@ -175,6 +198,7 @@ def listar_cursos(request):
     
     return render(request,"Appcoder/listar-cursos.html", contexto)    
 
+@login_required
 def editarcurso(request,curso_nombre):
   
     cursoedit= cursomodel.objects.get(nombre=curso_nombre)
@@ -191,21 +215,65 @@ def editarcurso(request,curso_nombre):
           cursoedit.camada = informacion['camada']
           cursoedit.save()
   
-          return render(request,"Appcoder/inicio.html")
+          return render(request,"Loginok.html")
     else:
           miFormulario = Cursoformulario(initial={'nombre':cursoedit.nombre,'camada':cursoedit.camada})
     return render(request,"Appcoder/editarcurso.html",{"miFormulario":miFormulario,"curso_nombre":curso_nombre})
 
 
-
-
-#class CursoList(ListView):
-    #model = cursomodel
-   # template_name= "Appcoder/curso/list/"
-
-      
-#class CursoUpdate(UpdateView):
-   # model = cursomodel
-    #success_url= "/Appcoder/curso/list"
-    #fields = ['nombre','camada']
+def login_request(request):
+    
+    if request.method =="POST":
+        
+        form = AuthenticationForm(request, data = request.POST)  
      
+        if form.is_valid():
+            
+             usuario = form.cleaned_data.get('username')
+             contra = form.cleaned_data.get('password')
+
+             user= authenticate(username=usuario, password=contra)
+
+             if user is not None:
+                 login(request,user)
+                 
+                 return render(request, "Loginok.html")
+             else:
+                return render(request,"Loginerror.html")
+        else:
+                return render(request, "Loginerror.html")
+    form = AuthenticationForm()
+    return render (request, "Appcoder/login.html", {'form': form})                        
+
+def register(request):
+    if request.method == 'POST':
+
+        form = UserCreationForm(request.POST)
+        #form = UserRegisterForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            form.save()
+            return HttpResponse("usuario exitosamente creado")
+
+    else: 
+        form = UserCreationForm()
+        #form = UserRegisterForm()
+
+    return render(request, "Appcoder/registro.html" , {"form":form})    
+
+def editarperfil(request):
+    usuario = request.user
+    if request.method == 'POST':
+        miFormulario = UserEditForm(request.POST)
+        if miFormulario.is_valid:
+            informacion = miFormulario.cleaned_data
+            
+            usuario.Email = informacion['email']
+            usuario.password1 = informacion['password1']
+            usuario.password2 = informacion['password1']
+            usuario.save
+            return render(request, "Appcoder/Loginok.html")
+    else:
+        miFormulario=UserEditForm(initial={'email': usuario.email})   
+    return render (request, "Appcoder/editarperfil.html", {"miFormulario":miFormulario,"usuario":usuario})         

@@ -1,5 +1,6 @@
 from django.urls import path
 from Appcoder import viewsf
+from django.contrib.auth.views import LogoutView
 from Appcoder.viewsf import (
 editarcurso, 
 inicio,
@@ -14,7 +15,11 @@ leeralumnos,
 eliminarcurso,
 editarcurso,
 listar_cursos,
-
+login_request,
+register,
+Loginok,
+Logout,
+editarperfil
 )
    
 
@@ -33,5 +38,11 @@ urlpatterns = [
     path('eliminarcurso/<c_nombre>/', eliminarcurso ,name= "EliminarCurso"),
     path('editarcurso/<curso_nombre>/', editarcurso ,name= "EditarCurso"),
     path('listar_cursos/', listar_cursos ,name= "listar_cursos"),
+    path('Login/', login_request,name= "Login"),
+    path('register/', register,name= "Register"),
+    path('Loginok/', Loginok,name= "Loginok"),
+    path('Logout/', LogoutView.as_view(template_name='Appcoder/Logout.html'),name= "Logout"),
+    path('editarperfil/', editarperfil,name= "EditarPerfil"),
+
     #path('curso/list', CursoList.as_view() ,name= "CursoList"),
 ]

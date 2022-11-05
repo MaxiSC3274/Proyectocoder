@@ -1,14 +1,16 @@
+<html>
+<tittle> Registro </tittle>
+</head>
 <body>
 
-    <form action = "{% url 'EditarCurso' miFormulario.nombre.value %}"
+    <form action = ""
     method="POST">
     {% csrf_token %}
-    {{miFormulario.as_p}}
+    {{form.as_p}}
     <br><br>
     <input type="submit" value="Guardar datos">
   
 </form>
 
-   
-   
     <body>
+</html>
