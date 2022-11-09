@@ -1,6 +1,8 @@
 from django.urls import path
 from Appcoder import viewsf
 from django.contrib.auth.views import LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
 from Appcoder.viewsf import (
 editarcurso, 
 inicio,
@@ -46,3 +48,4 @@ urlpatterns = [
 
     #path('curso/list', CursoList.as_view() ,name= "CursoList"),
 ]
+urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

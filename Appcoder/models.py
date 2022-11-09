@@ -33,12 +33,14 @@ class User(models.Model):
       last_name = models.CharField(max_length=30)
       first_name= models.CharField(max_length=30)
 
+      USERNAME_FIELD = 'username'
 
-   
 
-#class Avatar(models.Model):
-     # user=models.ForeignKey(User, on_delete=models.CASCADE)
-      #imagen=models.ImageField(upload_to='avatares',null=True, blank=True)
+
+
+class Avatar(models.Model):
+     username=models.ForeignKey(User, on_delete=models.CASCADE)
+     imagen=models.ImageField(upload_to='avatares',null=True, blank=True)
 
 
       

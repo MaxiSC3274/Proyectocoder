@@ -19,6 +19,8 @@ from django.urls import path
 #from Appcoder.viewss import Pagina
 from Appcoder.viewsf import crear_familiar, inicio
 from Appcoder import viewsf
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,10 +31,8 @@ urlpatterns = [
     #path('',Pagina),
     #path('inicio', inicio),
     #path('',crear_familiar),
-    path('', inicio)
+    path('', inicio),
 
-   
-  
-   
     
 ]
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

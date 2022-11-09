@@ -20,6 +20,7 @@ class formulariohijo(forms.Form):
       #curso = forms.CharField()
       camada = forms.IntegerField()     
 
+
 class UserRegister(UserCreationForm):
       username = forms.CharField()
       email = forms.EmailField()
@@ -34,30 +35,17 @@ class UserRegister(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2','last_name','first_name']
         help_text = {k:""for k in fields}
 
-
-class UserEditform(UserCreationForm):
-     
-      email = forms.EmailField()
-      password1= forms.CharField()
-      password2= forms.CharField()
-
-      last_name = forms.CharField()
-      first_name = forms.CharField()
-
-      class Meta:
-        model = User
-        fields = ['email', 'password1', 'password2','last_name','first_name']
-        help_text = {k:""for k in fields}
-
    
 
 class UserEditForm(UserCreationForm):
       username = forms.CharField()
-      email=forms.EmailField(label="modificar E-mail")    
+      email= forms.EmailField(label="modificar E-mail")    
       password1:forms.CharField(label='Contraseña', widget=forms.PasswordInput)  
       password2:forms.CharField(label='Repetir la contraseña', widget=forms.PasswordInput)
+      first_name = forms.CharField(label="Primer Nombre")
+      last_name = forms.CharField(label="Apellido")
       
       class Meta:
         model = User
-        fields = ['username','email','password1','password2']
+        fields = ['email', 'password1', 'password2','last_name','first_name']
         help_text = {k:"" for k in fields}

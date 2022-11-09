@@ -46,6 +46,7 @@ def servicios(request):
        contextoleer = {"curso": leercurso}     
        return render (request, "Appcoder/leeralumnos.html",contextoleer)
 
+@login_required
 def cursoformulario(request):
    
     if request.method == "GET":
@@ -182,6 +183,7 @@ def leeralumnos(request):
     contextoleer = {"curso": leercurso}     
     return render (request, "Appcoder/leeralumnos.html",contextoleer)
 
+@login_required
 def eliminarcurso(request,c_nombre):
     #return HttpResponse("holi")
     curso = cursomodel.objects.filter(nombre=c_nombre)
@@ -249,12 +251,13 @@ def register(request):
     if request.method == 'POST':
 
         form = UserCreationForm(request.POST)
+        
         #form = UserRegisterForm(request.POST)
 
         if form.is_valid():
             username = form.cleaned_data['username']
             form.save()
-            return HttpResponse("usuario exitosamente creado")
+            return HttpResponse("Usuario creado correctamente")
 
     else: 
         form = UserCreationForm()
@@ -262,18 +265,22 @@ def register(request):
 
     return render(request, "Appcoder/registro.html" , {"form":form})    
 
+@login_required
 def editarperfil(request):
-    usuario = request.user
-    if request.method == 'POST':
-        miFormulario = UserEditForm(request.POST)
-        if miFormulario.is_valid:
-            informacion = miFormulario.cleaned_data
-            
-            usuario.Email = informacion['email']
-            usuario.password1 = informacion['password1']
-            usuario.password2 = informacion['password1']
-            usuario.save
-            return render(request, "Appcoder/Loginok.html")
-    else:
-        miFormulario=UserEditForm(initial={'email': usuario.email})   
-    return render (request, "Appcoder/editarperfil.html", {"miFormulario":miFormulario,"usuario":usuario})         
+    user = request.user
+    if request.method != 'POST':
+       form = UserEditForm(initial={"username": user.username}) 
+    else: 
+       form = UserEditForm(request.POST)   
+       if form.is_valid():
+          data= form.cleaned_data
+          user.email = data["email"]
+          user.first_name = data["first_name"]
+          user.last_name = data["last_name"]
+          user.set_password(data["password1"])
+          user.save()
+          return render (request,"Appcoder/Login.html")
+
+    contexto = {"user": user, "form": form}   
+    return render(request,"Appcoder/Editarperfil.html",contexto)  
+         

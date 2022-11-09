@@ -6,16 +6,14 @@
 
 
     <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
-    
-    <h3>Logueo exitoso, Podes buscar una camada:</h3>
+   
+    <h3>{{user.username}}, Podes buscar una camada:</h3>
 
     <form action="/Appcoder/buscar/" method="GET">
 
         <input type="number" name="camada" id="camada">
 
         <input type="submit" href="{% url 'busquedacamada' %}" value="Buscar">
-
-
 
 
     </form>
@@ -31,7 +29,7 @@
 		<li> {{curso.nombre}} </li>
 		<li> {{curso.camada}} </li>
 	{% endfor %}
-    <a href = "{% url 'inicio' %}" > Volver al Menu</a>
+    <a href = "{% url 'Inicio' %}" > Volver al Menu</a>
     </ul>
     
     {% endif %}

@@ -24,10 +24,20 @@
      <!-- Navigation-->
      <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
-          
+     
+         
+    {% if not request.user.is_authenticated %}
+    <a class="btn btn-primary" href="{% url 'Login' %}"> Iniciar Sesion </a>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+    <p class = "text-muted small mb-4 mb-lg-0">Hola,{{user.username}}</p>
+    {% endif %}
+           
     <a class="navbar-brand" href="{% url 'servicios' %}">EditarBD</a>
     <a class="navbar-brand" href="{% url 'cursoformulario' %}">Cargar Curso a la BD</a>
-    <a class="navbar-brand" href="{%  url 'Logout' %}">Logout</a>
+    <a class="navbar-brand" href="{%  url 'EditarPerfil' %}">Editar perfil</a>
+    <a class="navbar-brand" href="{%  url 'Logout' %}">Logout</a>       
+   
         </div>
     </nav>
 
@@ -38,8 +48,10 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-6">
                         <div class="text-center text-white">
-                            <!-- Page heading-->
-                            <h1 class="mb-5">Entrega final Django - CoderHouse</h1>
+                              <h1 class="mb-5">Entrega final Django - CoderHouse</h1>
+                           
+                              
+                          
                             <!-- Signup form-->
                             <!-- * * * * * * * * * * * * * * *-->
                             <!-- * * SB Forms Contact Form * *-->

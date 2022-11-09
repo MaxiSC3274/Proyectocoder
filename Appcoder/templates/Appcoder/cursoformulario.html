@@ -20,7 +20,13 @@ background-color: burlywood}
         <input type="submit" value ="Guardar">
 </form>
 <br><br>
+
+{% if not request.user.is_authenticated %}
 <a href ="{% url 'Loginok' %}"> Volver al Menu</a>
+{% endif %}
+<a href ="{% url 'Loginok' %}"> Volver al Menu</a>
+
+
 
 </head>
 
